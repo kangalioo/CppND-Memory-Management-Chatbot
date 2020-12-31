@@ -42,6 +42,75 @@ ChatBot::~ChatBot()
     }
 }
 
+// You could avoid all of this laborious manual memory management by simply using a shared_ptr for
+// _image. But oh well, let's manage memory manually.... in the name of practice......... I guess
+
+ChatBot::ChatBot(const ChatBot &source) noexcept {
+    std::cout << "ChatBot copy constructor\n";
+
+    delete source._image;
+    this->_image = new wxBitmap(*source._image);
+    this->_currentNode = source._currentNode;
+    this->_rootNode = source._rootNode;
+    this->_chatLogic = source._chatLogic;
+}
+
+ChatBot ChatBot::operator=(const ChatBot &source) {
+    std::cout << "ChatBot copy assignment operator\n";
+
+    if (this == &source) return *this;
+
+    // we could offload these four duplicate lines to the copy constructor, but let's just keep to
+    // the project's requirements to avoid any trouble in the review
+    delete source._image;
+    this->_image = new wxBitmap(*source._image);
+    this->_currentNode = source._currentNode;
+    this->_rootNode = source._rootNode;
+    this->_chatLogic = source._chatLogic;
+
+    return *this;
+}
+
+ChatBot::ChatBot(ChatBot &&source) {
+    std::cout << "ChatBot move constructor\n";
+
+    this->_image = source._image;
+    this->_currentNode = source._currentNode;
+    this->_rootNode = source._rootNode;
+    this->_chatLogic = source._chatLogic;
+
+    delete source._image;
+    // pretty sure these lines are completely useless, since `source` will be destroyed after this
+    // anyways
+    source._image = nullptr;
+    source._currentNode = nullptr;
+    source._rootNode = nullptr;
+    source._chatLogic = nullptr;
+}
+
+ChatBot &ChatBot::operator=(ChatBot &&source) {
+    std::cout << "ChatBot move assignment operator\n";
+
+    if (this == &source) return *this;
+
+    // we could offload those lines of code to the move constructor where they're already implemented,
+    // but we're already required to do simple things in a complicated fashion in this project, so
+    // why not stick to that principle
+
+    this->_image = source._image;
+    this->_currentNode = source._currentNode;
+    this->_rootNode = source._rootNode;
+    this->_chatLogic = source._chatLogic;
+
+    delete source._image;
+    source._image = nullptr;
+    source._currentNode = nullptr;
+    source._rootNode = nullptr;
+    source._chatLogic = nullptr;
+
+    return *this;
+}
+
 //// STUDENT CODE
 ////
 
