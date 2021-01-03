@@ -56,7 +56,7 @@ ChatBot::ChatBot(const ChatBot &source) noexcept {
 }
 
 ChatBot ChatBot::operator=(const ChatBot &source) {
-    std::cout << "ChatBot copy assignment operator\n";
+    std::cout << "ChatBot Copy Assignment Operator\n";
 
     if (this == &source) return *this;
 
@@ -72,7 +72,7 @@ ChatBot ChatBot::operator=(const ChatBot &source) {
 }
 
 ChatBot::ChatBot(ChatBot &&source) {
-    std::cout << "ChatBot move constructor\n";
+    std::cout << "ChatBot Move Constructor\n";
 
     this->_image = source._image;
     this->_currentNode = source._currentNode;
@@ -88,7 +88,7 @@ ChatBot::ChatBot(ChatBot &&source) {
 }
 
 ChatBot &ChatBot::operator=(ChatBot &&source) {
-    std::cout << "ChatBot move assignment operator\n";
+    std::cout << "ChatBot Move Assignment Operator\n";
 
     if (this == &source) return *this;
 
@@ -121,7 +121,7 @@ void ChatBot::ReceiveMessageFromUser(std::string message)
     typedef std::pair<GraphEdge *, int> EdgeDist;
     std::vector<EdgeDist> levDists; // format is <ptr,levDist>
 
-    for (size_t i = 0; i < _currentNode->GetNumberOfChildEdges(); ++i)
+    for (int i = 0; i < _currentNode->GetNumberOfChildEdges(); ++i)
     {
         GraphEdge *edge = _currentNode->GetChildEdgeAtIndex(i);
         for (auto keyword : edge->GetKeywords())
