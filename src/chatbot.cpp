@@ -79,7 +79,6 @@ ChatBot::ChatBot(ChatBot &&source) {
     this->_rootNode = source._rootNode;
     this->_chatLogic = source._chatLogic;
 
-    delete source._image;
     // pretty sure these lines are completely useless, since `source` will be destroyed after this
     // anyways
     source._image = nullptr;
@@ -102,7 +101,6 @@ ChatBot &ChatBot::operator=(ChatBot &&source) {
     this->_rootNode = source._rootNode;
     this->_chatLogic = source._chatLogic;
 
-    delete source._image;
     source._image = nullptr;
     source._currentNode = nullptr;
     source._rootNode = nullptr;
@@ -163,6 +161,7 @@ void ChatBot::SetCurrentNode(GraphNode *node)
     std::string answer = answers.at(dis(generator));
 
     // send selected node answer to user
+    _chatLogic->SetChatbotHandle(this);
     _chatLogic->SendMessageToUser(answer);
 }
 
